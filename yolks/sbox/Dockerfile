@@ -17,11 +17,12 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# OpenSSL: cap at TLS 1.2 and lower security level — s&box backend triggers
-# SSL_ERROR_SSL during decryption when TLS 1.3 KeyUpdate is negotiated with
-# OpenSSL 3.0.x on Ubuntu 24.04 via .NET's P/Invoke layer.
-RUN sed -i 's/@SECLEVEL=2/@SECLEVEL=1/g' /etc/ssl/openssl.cnf \
-    && sed -i '/^MinProtocol\s*=/a MaxProtocol = TLSv1.2' /etc/ssl/openssl.cnf
+# OpenSSL: cap at TLS 1.2 — Ubuntu 24.04's openssl.cnf has no ssl_conf section
+# by default, so we add one. .NET's async OpenSSL interop (SSL_read non-blocking)
+# fails with SSL_ERROR_SSL on TLS 1.3 session ticket post-handshake messages
+# under OpenSSL 3.0.x; curl is unaffected because libcurl uses a different path.
+RUN sed -i '/^\[openssl_init\]/a ssl_conf = ssl_sect' /etc/ssl/openssl.cnf \
+    && printf '\n[ssl_sect]\nsystem_default = ssl_default_sect\n\n[ssl_default_sect]\nMinProtocol = TLSv1.2\nMaxProtocol = TLSv1.2\nCipherString = DEFAULT@SECLEVEL=1\n' >> /etc/ssl/openssl.cnf
 
 # SteamCMD
 ENV STEAMCMD_DIR="/opt/steamcmd"
