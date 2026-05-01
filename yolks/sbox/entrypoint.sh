@@ -1,6 +1,9 @@
 #!/bin/bash
 cd /home/container
 
+mkdir -p download/assets/models
+mkdir -p config/convar
+
 # SteamCMD Permissions fix (Pelican volume mount can reset these)
 chmod +x /opt/steamcmd/steamcmd.sh 2>/dev/null
 chmod +x /opt/steamcmd/linux32/steamcmd 2>/dev/null

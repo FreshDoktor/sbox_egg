@@ -8,7 +8,7 @@
     "name": "s&box Dedicated Server",
     "author": "freshdoktor@freshgaming.eu",
     "description": "s&box Dedicated Server running natively on Linux with .NET Runtime.",
-    "features": null,
+    "features": ["tty"],
     "docker_images": {
         "sbox": "ghcr.io/freshdoktor/yolks:sbox"
     },
