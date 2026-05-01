@@ -1,0 +1,121 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2026-05-01T00:00:00+00:00",
+    "name": "s&box Dedicated Server",
+    "author": "freshdoktor@github.com",
+    "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "description": "s&box Dedicated Server running natively on Linux with .NET Runtime. No Wine required.",
+    "features": null,
+    "docker_images": {
+        "ghcr.io/freshdoktor/yolks:sbox": "ghcr.io/freshdoktor/yolks:sbox"
+    },
+    "file_denylist": [],
+    "startup": "./sbox-server.exe +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" {{SBOX_EXTRA_ARGS}}",
+    "config": {
+        "stop": "^C",
+        "logs": {},
+        "extends": null,
+        "files": {}
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!/bin/bash\napt-get update\napt-get install -y curl lib32gcc-s1 lib32stdc++6\n\nmkdir -p /mnt/server\ncd /mnt/server\n\ncurl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xzvf - -C /opt/steamcmd\n\nBRANCH_ARG=\"\"\nif [ -n \"${SBOX_BRANCH}\" ]; then\n    BRANCH_ARG=\"-beta ${SBOX_BRANCH}\"\nfi\n\n/opt/steamcmd/steamcmd.sh +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 1892930 ${BRANCH_ARG} validate \\\n    +quit\n\nchown -R container:container /mnt/server",
+            "container": "debian:bookworm-slim",
+            "entrypoint": "bash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Game Mode",
+            "description": "The game mode to run on the server.",
+            "env_variable": "GAME",
+            "default_value": "facepunch.sandbox",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "sort": 1,
+            "field_type": "text"
+        },
+        {
+            "name": "Server Name",
+            "description": "The name of the server as it appears in the server browser.",
+            "env_variable": "SERVER_NAME",
+            "default_value": "s&box Server",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "sort": 2,
+            "field_type": "text"
+        },
+        {
+            "name": "Map",
+            "description": "The map to load on the server (leave empty for default).",
+            "env_variable": "MAP",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "sort": 3,
+            "field_type": "text"
+        },
+        {
+            "name": "Extra Arguments",
+            "description": "Additional command-line arguments to pass to the server.",
+            "env_variable": "SBOX_EXTRA_ARGS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|string",
+            "sort": 4,
+            "field_type": "text"
+        },
+        {
+            "name": "Max Players",
+            "description": "Maximum number of players allowed on the server.",
+            "env_variable": "MAX_PLAYERS",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "nullable|integer",
+            "sort": 5,
+            "field_type": "text"
+        },
+        {
+            "name": "Game Server Token",
+            "description": "Steam Game Server Login Token for server authentication.",
+            "env_variable": "TOKEN",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "nullable|string",
+            "sort": 6,
+            "field_type": "text"
+        },
+        {
+            "name": "Auto Update",
+            "description": "Automatically update the server via SteamCMD on startup. Set to 1 to enable.",
+            "env_variable": "SBOX_AUTO_UPDATE",
+            "default_value": "1",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:0,1",
+            "sort": 7,
+            "field_type": "text"
+        },
+        {
+            "name": "Beta Branch",
+            "description": "SteamCMD beta branch to install (leave empty for stable).",
+            "env_variable": "SBOX_BRANCH",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "nullable|string",
+            "sort": 8,
+            "field_type": "text"
+        }
+    ]
+}
