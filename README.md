@@ -5,7 +5,7 @@ Pelican Egg and Docker image for the s&box Dedicated Server, running natively on
 ## Overview
 
 - **Docker Image**: `ghcr.io/freshdoktor/yolks:sbox`
-- **Base**: `debian:bookworm-slim` with .NET 9 Runtime and SteamCMD
+- **Base**: `ghcr.io/parkervcp/yolks:debian` with .NET 9 Runtime and SteamCMD
 - **Steam App ID**: `1892930`
 - **Stop Signal**: `^C` (SIGINT)
 
@@ -30,7 +30,7 @@ The `scripts/` directory contains readable copies of the scripts embedded in `eg
 ### Install vs Runtime
 
 - **Install** (`egg-sbox.json` script): Runs once in `ghcr.io/parkervcp/installers:debian` as root. Downloads SteamCMD and s&box server files to `/mnt/server`.
-- **Runtime** (`yolks/sbox/`): Custom image based on `debian:bookworm-slim` with .NET 9 Runtime and SteamCMD pre-installed. Runs the server as non-root `container` user.
+- **Runtime** (`yolks/sbox/`): Custom image based on `ghcr.io/parkervcp/yolks:debian` with .NET 9 Runtime and SteamCMD pre-installed. Runs the server as non-root `container` user.
 
 ## Variables
 
