@@ -7,6 +7,8 @@
 
 cd /home/container
 
+export TERM=dumb
+
 # SteamCMD Permissions fix (Pelican volume mount can reset these)
 chmod +x /opt/steamcmd/steamcmd.sh 2>/dev/null
 chmod +x /opt/steamcmd/linux32/steamcmd 2>/dev/null
