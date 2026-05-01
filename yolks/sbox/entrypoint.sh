@@ -15,7 +15,7 @@ fi
 
 # Pelican STARTUP override
 if [ -n "${STARTUP}" ]; then
-    eval "${STARTUP}"
+    exec bash -c "${STARTUP}"
 else
     exec bash sbox-server.sh
 fi
