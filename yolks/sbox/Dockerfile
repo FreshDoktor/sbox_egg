@@ -17,10 +17,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# OpenSSL: lower security level for s&box backend compatibility
-RUN sed -i '/^\[openssl_init\]/a ssl_conf = ssl_configuration' /etc/ssl/openssl.cnf \
-    && printf '\n[ssl_configuration]\nsystem_default = ssl_default\n\n[ssl_default]\nCipherString = DEFAULT:@SECLEVEL=1\n' >> /etc/ssl/openssl.cnf
-
 # SteamCMD
 ENV STEAMCMD_DIR="/opt/steamcmd"
 RUN mkdir -p "${STEAMCMD_DIR}" \

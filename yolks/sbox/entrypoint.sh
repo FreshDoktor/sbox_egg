@@ -9,7 +9,7 @@ chmod +x /opt/steamcmd/linux32/steamcmd 2>/dev/null
 if [ "${SBOX_AUTO_UPDATE}" = "1" ]; then
     /opt/steamcmd/steamcmd.sh +force_install_dir /home/container \
         +login anonymous \
-        +app_update 1892930 validate \
+        +app_update 1892930 -beta staging validate \
         +quit
 fi
 
