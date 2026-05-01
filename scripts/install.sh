@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================================
 #  s&box Dedicated Server — Install Script (aus egg-sbox.json)
-#  Laeuft im Installer-Container (ghcr.io/parkervcp/installers:debian)
+#  Laeuft im Installer-Container (ghcr.io/parkervcp/installers:ubuntu)
 #  als root. Zielverzeichnis: /mnt/server
 # ============================================================
 

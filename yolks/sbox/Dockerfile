@@ -1,8 +1,8 @@
-FROM ghcr.io/parkervcp/yolks:debian
+FROM ghcr.io/parkervcp/yolks:ubuntu
 
 LABEL author="FreshDoktor" maintainer="freshdoktor@freshgaming.eu"
 
-ENV DEBIAN_FRONTEND=noninteractive
+ENV UBUNTU_FRONTEND=noninteractive
 
 # .NET 10 Runtime + SteamCMD dependencies
 RUN apt-get update \

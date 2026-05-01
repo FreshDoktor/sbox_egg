@@ -13,7 +13,7 @@
         "sbox": "ghcr.io/freshdoktor/yolks:sbox"
     },
     "file_denylist": [],
-    "startup": "dotnet sbox-server.dll +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" {{SBOX_EXTRA_ARGS}}",
+    "startup": "export LD_LIBRARY_PATH=$(pwd)/bin/linuxsteamrt64:$LD_LIBRARY_PATH && dotnet sbox-server.dll +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" {{SBOX_EXTRA_ARGS}}",
     "config": {
         "files": "{}",
         "startup": "{\"done\": \"Loading game|Server started\"}",
@@ -23,7 +23,7 @@
     "scripts": {
         "installation": {
             "script": "#!/bin/bash\napt-get update\napt-get install -y --no-install-recommends curl lib32gcc-s1 lib32stdc++6\n\nmkdir -p /mnt/server\nmkdir -p /opt/steamcmd\n\ncurl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xzvf - -C /opt/steamcmd\n\n# Run SteamCMD once to let it update itself\n/opt/steamcmd/steamcmd.sh +quit\n\nBRANCH_ARG=\"\"\nif [ -n \"${SBOX_BRANCH}\" ]; then\n    BRANCH_ARG=\"-beta ${SBOX_BRANCH}\"\nfi\n\n/opt/steamcmd/steamcmd.sh +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 1892930 ${BRANCH_ARG} validate \\\n    +quit\n\nchown -R 999:999 /mnt/server",
-            "container": "ghcr.io/parkervcp/installers:debian",
+            "container": "ghcr.io/parkervcp/installers:ubuntu",
             "entrypoint": "bash"
         }
     },
