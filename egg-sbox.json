@@ -1,30 +1,29 @@
 {
-    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PELICAN PANEL",
     "meta": {
         "version": "PTDL_v2",
         "update_url": null
     },
     "exported_at": "2026-05-01T00:00:00+00:00",
     "name": "s&box Dedicated Server",
-    "author": "freshdoktor@github.com",
-    "uuid": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-    "description": "s&box Dedicated Server running natively on Linux with .NET Runtime. No Wine required.",
+    "author": "freshdoktor@freshgaming.eu",
+    "description": "s&box Dedicated Server running natively on Linux with .NET Runtime.",
     "features": null,
     "docker_images": {
-        "ghcr.io/freshdoktor/yolks:sbox": "ghcr.io/freshdoktor/yolks:sbox"
+        "sbox": "ghcr.io/freshdoktor/yolks:sbox"
     },
     "file_denylist": [],
     "startup": "./sbox-server.exe +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" {{SBOX_EXTRA_ARGS}}",
     "config": {
-        "stop": "^C",
-        "logs": {},
-        "extends": null,
-        "files": {}
+        "files": "{}",
+        "startup": "{\"done\": \"Loading game|Server started\"}",
+        "logs": "{}",
+        "stop": "^C"
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\napt-get update\napt-get install -y curl lib32gcc-s1 lib32stdc++6\n\nmkdir -p /mnt/server\ncd /mnt/server\n\ncurl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xzvf - -C /opt/steamcmd\n\nBRANCH_ARG=\"\"\nif [ -n \"${SBOX_BRANCH}\" ]; then\n    BRANCH_ARG=\"-beta ${SBOX_BRANCH}\"\nfi\n\n/opt/steamcmd/steamcmd.sh +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 1892930 ${BRANCH_ARG} validate \\\n    +quit\n\nchown -R container:container /mnt/server",
-            "container": "debian:bookworm-slim",
+            "script": "#!/bin/bash\napt-get update\napt-get install -y --no-install-recommends curl lib32gcc-s1 lib32stdc++6\n\nmkdir -p /mnt/server\nmkdir -p /opt/steamcmd\n\ncurl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xzvf - -C /opt/steamcmd\n\nBRANCH_ARG=\"\"\nif [ -n \"${SBOX_BRANCH}\" ]; then\n    BRANCH_ARG=\"-beta ${SBOX_BRANCH}\"\nfi\n\n/opt/steamcmd/steamcmd.sh +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 1892930 ${BRANCH_ARG} validate \\\n    +quit\n\nchown -R 999:999 /mnt/server",
+            "container": "ghcr.io/parkervcp/installers:debian",
             "entrypoint": "bash"
         }
     },
@@ -37,7 +36,6 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "nullable|string",
-            "sort": 1,
             "field_type": "text"
         },
         {
@@ -48,7 +46,6 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "nullable|string",
-            "sort": 2,
             "field_type": "text"
         },
         {
@@ -59,7 +56,6 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "nullable|string",
-            "sort": 3,
             "field_type": "text"
         },
         {
@@ -70,18 +66,16 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "nullable|string",
-            "sort": 4,
             "field_type": "text"
         },
         {
             "name": "Max Players",
             "description": "Maximum number of players allowed on the server.",
             "env_variable": "MAX_PLAYERS",
-            "default_value": "",
+            "default_value": "8",
             "user_viewable": true,
             "user_editable": true,
             "rules": "nullable|integer",
-            "sort": 5,
             "field_type": "text"
         },
         {
@@ -92,7 +86,6 @@
             "user_viewable": false,
             "user_editable": false,
             "rules": "nullable|string",
-            "sort": 6,
             "field_type": "text"
         },
         {
@@ -103,7 +96,6 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "required|string|in:0,1",
-            "sort": 7,
             "field_type": "text"
         },
         {
@@ -114,7 +106,6 @@
             "user_viewable": false,
             "user_editable": false,
             "rules": "nullable|string",
-            "sort": 8,
             "field_type": "text"
         }
     ]

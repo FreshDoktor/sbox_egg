@@ -1,4 +1,10 @@
 #!/bin/bash
+# ============================================================
+#  s&box Dedicated Server — Entrypoint Script (aus yolks/sbox/entrypoint.sh)
+#  Laeuft im Runtime-Container (ghcr.io/freshdoktor/yolks:sbox)
+#  als container User.
+# ============================================================
+
 cd /home/container
 
 # SteamCMD Permissions fix (Pelican volume mount can reset these)

@@ -15,12 +15,22 @@ Pelican Egg and Docker image for the s&box Dedicated Server, running natively on
 .
 ├── egg-sbox.json                        # Pelican Egg definition
 ├── yolks/sbox/
-│   ├── Dockerfile                       # Docker image
+│   ├── Dockerfile                       # Docker image (runtime)
 │   ├── entrypoint.sh                    # Server startup script
 │   └── build.sh                         # Local build script
+├── scripts/
+│   ├── install.sh                       # Readable copy of egg install script
+│   └── entrypoint.sh                    # Readable copy of entrypoint script
 └── .github/workflows/
     └── docker-publish.yml               # CI/CD: build + push to GHCR
 ```
+
+The `scripts/` directory contains readable copies of the scripts embedded in `egg-sbox.json` and `yolks/sbox/entrypoint.sh` for easier review. The actual scripts used are the ones in the egg JSON and the Docker image.
+
+### Install vs Runtime
+
+- **Install** (`egg-sbox.json` script): Runs once in `ghcr.io/parkervcp/installers:debian` as root. Downloads SteamCMD and s&box server files to `/mnt/server`.
+- **Runtime** (`yolks/sbox/`): Custom image based on `debian:bookworm-slim` with .NET 9 Runtime and SteamCMD pre-installed. Runs the server as non-root `container` user.
 
 ## Variables
 

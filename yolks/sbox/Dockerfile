@@ -1,8 +1,14 @@
-FROM debian:bookworm-slim
+FROM ghcr.io/parkervcp/yolks:debian
 
-# .NET Runtime installieren
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    wget apt-transport-https ca-certificates \
+LABEL author="FreshDoktor" maintainer="freshdoktor@freshgaming.eu"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# .NET 9 Runtime + SteamCMD dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        wget apt-transport-https ca-certificates curl iproute2 tini \
+        lib32gcc-s1 lib32stdc++6 \
     && wget https://dot.net/v1/dotnet-install.sh -O /tmp/dotnet-install.sh \
     && chmod +x /tmp/dotnet-install.sh \
     && /tmp/dotnet-install.sh --runtime dotnet --channel 9.0 --install-dir /usr/share/dotnet \
@@ -12,24 +18,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # SteamCMD
-RUN dpkg --add-architecture i386 \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends lib32gcc-s1 lib32stdc++6 curl \
-    && mkdir -p /opt/steamcmd \
+ENV STEAMCMD_DIR="/opt/steamcmd"
+RUN mkdir -p "${STEAMCMD_DIR}" \
     && curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz \
-       | tar -xzvf - -C /opt/steamcmd \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# User setup (Pelican standard)
-RUN useradd -m -d /home/container -s /bin/bash container \
-    && chown -R container:container /opt/steamcmd
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+        | tar -xzvf - -C "${STEAMCMD_DIR}" \
+    && chown -R container:container "${STEAMCMD_DIR}"
 
 USER container
-ENV HOME=/home/container
+ENV USER=container HOME=/home/container
 WORKDIR /home/container
 
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+STOPSIGNAL SIGINT
+
+COPY --chown=container:container entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/usr/bin/tini", "-g", "--"]
+CMD ["/entrypoint.sh"]
