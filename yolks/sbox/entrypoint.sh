@@ -13,6 +13,9 @@ if [ "${SBOX_AUTO_UPDATE}" = "1" ]; then
         +quit
 fi
 
+# LD_LIBRARY_PATH for s&box native libs
+export LD_LIBRARY_PATH="$(pwd)/bin/linuxsteamrt64:${LD_LIBRARY_PATH}"
+
 # Server starten
 ARGS="+hostname \"${SERVER_NAME:-s&box Server}\""
 [ -n "${GAME}" ] && ARGS="+game ${GAME} ${ARGS}"
@@ -27,5 +30,5 @@ ARGS="+hostname \"${SERVER_NAME:-s&box Server}\""
 if [ -n "${STARTUP}" ]; then
     eval "${STARTUP}"
 else
-    eval "./sbox-server.exe ${ARGS}"
+    eval "dotnet sbox-server.dll ${ARGS}"
 fi

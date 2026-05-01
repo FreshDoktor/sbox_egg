@@ -13,7 +13,7 @@
         "sbox": "ghcr.io/freshdoktor/yolks:sbox"
     },
     "file_denylist": [],
-    "startup": "./sbox-server.exe +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" {{SBOX_EXTRA_ARGS}}",
+    "startup": "dotnet sbox-server.dll +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" {{SBOX_EXTRA_ARGS}}",
     "config": {
         "files": "{}",
         "startup": "{\"done\": \"Loading game|Server started\"}",

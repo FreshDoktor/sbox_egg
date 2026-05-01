@@ -30,7 +30,7 @@ The `scripts/` directory contains readable copies of the scripts embedded in `eg
 ### Install vs Runtime
 
 - **Install** (`egg-sbox.json` script): Runs once in `ghcr.io/parkervcp/installers:debian` as root. Downloads SteamCMD and s&box server files to `/mnt/server`.
-- **Runtime** (`yolks/sbox/`): Custom image based on `ghcr.io/parkervcp/yolks:debian` with .NET 9 Runtime and SteamCMD pre-installed. Runs the server as non-root `container` user.
+- **Runtime** (`yolks/sbox/`): Custom image based on `ghcr.io/parkervcp/yolks:debian` with .NET 9 Runtime and SteamCMD pre-installed. Runs the server via `dotnet sbox-server.dll` as non-root `container` user.
 
 ## Variables
 
