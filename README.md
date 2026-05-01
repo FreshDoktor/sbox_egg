@@ -1,4 +1,4 @@
-# s&box Dedicated Server - Pelican Egg
+# WIP s&box Dedicated Server - Pelican Egg WIP - CURRENTLY NOT FUNCTIONAL
 
 Pelican Egg and Docker image for the s&box Dedicated Server, running natively on Linux with .NET Runtime.
 
