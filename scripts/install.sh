@@ -13,6 +13,9 @@ mkdir -p /opt/steamcmd
 
 curl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xzvf - -C /opt/steamcmd
 
+# Run SteamCMD once to let it update itself
+/opt/steamcmd/steamcmd.sh +quit
+
 BRANCH_ARG=""
 if [ -n "${SBOX_BRANCH}" ]; then
     BRANCH_ARG="-beta ${SBOX_BRANCH}"

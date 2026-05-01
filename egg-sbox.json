@@ -22,7 +22,7 @@
     },
     "scripts": {
         "installation": {
-            "script": "#!/bin/bash\napt-get update\napt-get install -y --no-install-recommends curl lib32gcc-s1 lib32stdc++6\n\nmkdir -p /mnt/server\nmkdir -p /opt/steamcmd\n\ncurl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xzvf - -C /opt/steamcmd\n\nBRANCH_ARG=\"\"\nif [ -n \"${SBOX_BRANCH}\" ]; then\n    BRANCH_ARG=\"-beta ${SBOX_BRANCH}\"\nfi\n\n/opt/steamcmd/steamcmd.sh +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 1892930 ${BRANCH_ARG} validate \\\n    +quit\n\nchown -R 999:999 /mnt/server",
+            "script": "#!/bin/bash\napt-get update\napt-get install -y --no-install-recommends curl lib32gcc-s1 lib32stdc++6\n\nmkdir -p /mnt/server\nmkdir -p /opt/steamcmd\n\ncurl -sqL https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz | tar -xzvf - -C /opt/steamcmd\n\n# Run SteamCMD once to let it update itself\n/opt/steamcmd/steamcmd.sh +quit\n\nBRANCH_ARG=\"\"\nif [ -n \"${SBOX_BRANCH}\" ]; then\n    BRANCH_ARG=\"-beta ${SBOX_BRANCH}\"\nfi\n\n/opt/steamcmd/steamcmd.sh +force_install_dir /mnt/server \\\n    +login anonymous \\\n    +app_update 1892930 ${BRANCH_ARG} validate \\\n    +quit\n\nchown -R 999:999 /mnt/server",
             "container": "ghcr.io/parkervcp/installers:debian",
             "entrypoint": "bash"
         }
