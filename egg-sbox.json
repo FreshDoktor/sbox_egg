@@ -10,10 +10,11 @@
     "description": "s&box Dedicated Server running natively on Linux with .NET Runtime.",
     "features": ["tty"],
     "docker_images": {
-        "sbox": "ghcr.io/freshdoktor/yolks:sbox"
+        "sbox": "ghcr.io/freshdoktor/yolks:sbox",
+        "sbox-beta": "ghcr.io/freshdoktor/yolks:sbox-beta"
     },
     "file_denylist": [],
-    "startup": "export LD_LIBRARY_PATH=$(pwd)/bin/linuxsteamrt64:$LD_LIBRARY_PATH && dotnet sbox-server.dll +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" {{SBOX_EXTRA_ARGS}}",
+    "startup": "export LD_LIBRARY_PATH=$(pwd)/bin/linuxsteamrt64:$LD_LIBRARY_PATH && dotnet sbox-server.dll +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" +maxplayers {{MAX_PLAYERS}} {{SBOX_EXTRA_ARGS}}",
     "config": {
         "files": "{}",
         "startup": "{\"done\": \"Loading game|Server started\"}",
@@ -30,7 +31,7 @@
     "variables": [
         {
             "name": "Game Mode",
-            "description": "The game mode to run on the server.",
+            "description": "The game mode to run on the server. (thieves.terrortown)",
             "env_variable": "GAME",
             "default_value": "facepunch.sandbox",
             "user_viewable": true,
@@ -50,7 +51,7 @@
         },
         {
             "name": "Map",
-            "description": "The map to load on the server (leave empty for default).",
+            "description": "The map to load on the server.",
             "env_variable": "MAP",
             "default_value": "",
             "user_viewable": true,
@@ -76,6 +77,36 @@
             "user_viewable": true,
             "user_editable": true,
             "rules": "nullable|integer",
+            "field_type": "text"
+        },
+        {
+            "name": "Server Port",
+            "description": "UDP port the server listens on. Must match the port allocated in the panel.",
+            "env_variable": "SERVER_PORT",
+            "default_value": "27015",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "required|integer|between:1024,65535",
+            "field_type": "text"
+        },
+        {
+            "name": "Query Port",
+            "description": "Port for Steam server browser queries. Leave empty to use the default.",
+            "env_variable": "QUERY_PORT",
+            "default_value": "",
+            "user_viewable": true,
+            "user_editable": false,
+            "rules": "nullable|integer|between:1024,65535",
+            "field_type": "text"
+        },
+        {
+            "name": "Enable Direct Connect",
+            "description": "Set to 1 to advertise direct connections (bypasses Steam relay). Requires correct SERVER_PORT and port forwarding. Leave at 0 to use Steam relay.",
+            "env_variable": "ENABLE_DIRECT_CONNECT",
+            "default_value": "0",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string|in:0,1",
             "field_type": "text"
         },
         {
