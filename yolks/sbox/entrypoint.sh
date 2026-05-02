@@ -22,8 +22,16 @@ chmod +x /opt/steamcmd/linux32/steamcmd 2>/dev/null
 if [ "${SBOX_AUTO_UPDATE}" = "1" ]; then
     /opt/steamcmd/steamcmd.sh +force_install_dir /home/container \
         +login anonymous \
-        +app_update 1892930 -beta staging validate \
+        +app_update 1892930 ${SBOX_BRANCH:+-beta ${SBOX_BRANCH}} validate \
         +quit
+fi
+
+# Append optional args kept out of STARTUP so they stay conditional
+if [ -n "${TOKEN:-}" ]; then
+    STARTUP="${STARTUP} +net_game_server_token ${TOKEN}"
+fi
+if [ -n "${QUERY_PORT:-}" ]; then
+    STARTUP="${STARTUP} +net_query_port ${QUERY_PORT}"
 fi
 
 # Pelican STARTUP override

@@ -47,10 +47,12 @@ The `scripts/` directory contains readable copies of the scripts embedded in `eg
 | `GAME` | `facepunch.sandbox` | Game mode |
 | `SERVER_NAME` | `s&box Server` | Server name in browser |
 | `MAP` | (empty) | Map (empty = default) |
-| `MAX_PLAYERS` | (empty) | Maximum player count |
+| `MAX_PLAYERS` | `8` | Maximum player count |
+| `SERVER_PORT` | `27015` | UDP port — must match the port allocated in the panel |
+| `QUERY_PORT` | (empty) | Steam server browser query port, optional |
 | `SBOX_EXTRA_ARGS` | (empty) | Additional startup arguments |
 | `SBOX_AUTO_UPDATE` | `1` | Auto-update via SteamCMD on startup |
-| `TOKEN` | (empty) | Steam Game Server Login Token (hidden) |
+| `TOKEN` | (empty) | Steam Game Server Login Token, optional (hidden) |
 | `SBOX_BRANCH` | (empty) | SteamCMD beta branch (hidden) |
 
 ## Building the Docker Image Locally
