@@ -10,7 +10,8 @@
     "description": "s&box Dedicated Server running natively on Linux with .NET Runtime.",
     "features": ["tty"],
     "docker_images": {
-        "sbox": "ghcr.io/freshdoktor/yolks:sbox"
+        "sbox": "ghcr.io/freshdoktor/yolks:sbox",
+        "sbox-beta": "ghcr.io/freshdoktor/yolks:sbox-beta"
     },
     "file_denylist": [],
     "startup": "export LD_LIBRARY_PATH=$(pwd)/bin/linuxsteamrt64:$LD_LIBRARY_PATH && dotnet sbox-server.dll +game {{GAME}} {{MAP}} +hostname \"{{SERVER_NAME}}\" +maxplayers {{MAX_PLAYERS}} +port {{SERVER_PORT}} +net_hide_address 0 {{SBOX_EXTRA_ARGS}}",
