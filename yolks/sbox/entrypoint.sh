@@ -9,10 +9,7 @@ mkdir -p config/convar
 # on the PTY (Pelican allocates a TTY but doesn't set dimensions).
 stty cols 120 rows 30 2>/dev/null || true
 
-# Prevent s&box from using cursor-up/carriage-return sequences to update
-# stats in-place. With TERM=dumb, .NET skips VT100 sequences; PTY dimensions
-# set above via stty are unaffected (kernel-level, independent of TERM).
-export TERM=dumb
+export TERM=xterm-256color
 
 # SteamCMD Permissions fix (Pelican volume mount can reset these)
 chmod +x /opt/steamcmd/steamcmd.sh 2>/dev/null
@@ -27,6 +24,9 @@ if [ "${SBOX_AUTO_UPDATE}" = "1" ]; then
 fi
 
 # Append optional args kept out of STARTUP so they stay conditional
+if [ "${ENABLE_DIRECT_CONNECT:-0}" = "1" ]; then
+    STARTUP="${STARTUP} +port ${SERVER_PORT} +net_hide_address 0"
+fi
 if [ -n "${TOKEN:-}" ]; then
     STARTUP="${STARTUP} +net_game_server_token ${TOKEN}"
 fi

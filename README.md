@@ -44,14 +44,15 @@ The `scripts/` directory contains readable copies of the scripts embedded in `eg
 
 | Variable | Default | Description |
 |---|---|---|
-| `GAME` | `facepunch.sandbox` | Game mode |
+| `GAME` | `facepunch.sandbox` | Game mode (e.g. `facepunch.sandbox`, `thieves.terrortown`) |
 | `SERVER_NAME` | `s&box Server` | Server name in browser |
-| `MAP` | (empty) | Map (empty = default) |
+| `MAP` | (empty) | Map to load (empty = default) |
 | `MAX_PLAYERS` | `8` | Maximum player count |
-| `SERVER_PORT` | `27015` | UDP port — must match the port allocated in the panel |
-| `QUERY_PORT` | (empty) | Steam server browser query port, optional |
 | `SBOX_EXTRA_ARGS` | (empty) | Additional startup arguments |
 | `SBOX_AUTO_UPDATE` | `1` | Auto-update via SteamCMD on startup |
+| `ENABLE_DIRECT_CONNECT` | `0` | Set to `1` to advertise direct connections and bypass Steam relay |
+| `SERVER_PORT` | `27015` | UDP port — only used when `ENABLE_DIRECT_CONNECT=1` |
+| `QUERY_PORT` | (empty) | Steam server browser query port, optional |
 | `TOKEN` | (empty) | Steam Game Server Login Token, optional (hidden) |
 | `SBOX_BRANCH` | (empty) | SteamCMD beta branch (hidden) |
 
@@ -64,12 +65,24 @@ cd yolks/sbox
 docker build -t ghcr.io/freshdoktor/yolks:sbox .
 ```
 
+To build and push a beta image for testing on Wings without touching the production tag:
+
+```bash
+cd yolks/sbox
+bash build.sh ghcr.io/freshdoktor/yolks:sbox-beta
+docker push ghcr.io/freshdoktor/yolks:sbox-beta
+```
+
+In the Pelican panel, switch the server's Docker Image to `sbox-beta` under Startup to test it. Switch back to `sbox` once verified.
+
 ## Testing
 
 ```bash
 docker run -it \
   -e GAME=facepunch.sandbox \
   -e SERVER_NAME=Test \
+  -e MAX_PLAYERS=8 \
+  -e SERVER_PORT=27015 \
   -e SBOX_AUTO_UPDATE=1 \
   ghcr.io/freshdoktor/yolks:sbox
 ```
