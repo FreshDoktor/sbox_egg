@@ -12,7 +12,7 @@ stty cols 120 rows 30 2>/dev/null || true
 # Prevent s&box from using cursor-up/carriage-return sequences to update
 # stats in-place. With TERM=dumb, .NET skips VT100 sequences; PTY dimensions
 # set above via stty are unaffected (kernel-level, independent of TERM).
-export TERM=dumb
+export TERM=xterm-256color
 
 # SteamCMD Permissions fix (Pelican volume mount can reset these)
 chmod +x /opt/steamcmd/steamcmd.sh 2>/dev/null
