@@ -5,10 +5,7 @@ Pelican Egg and Docker image for the s&box Dedicated Server, running natively on
 ## Status / Disclaimer
 
 This egg is experimental. The s&box dedicated server on native Linux is not officially supported by Facepunch and may break with any game update.
-
-**Known issues:**
-- Initial startup can take 5+ minutes while the server downloads assets
-- Network performance may be degraded compared to Windows (Got ping > 500)
+The initial startup may appear stuck — this is normal while assets are being downloaded. Monitor progress via the network graph in the panel.
 
 ## Overview
 
